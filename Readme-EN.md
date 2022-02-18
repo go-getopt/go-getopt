@@ -8,7 +8,7 @@
 
 ---
 
-Go GetOpt is a go library that helps you parse cmd args like a writing shell script.
+Go GetOpt is a go library that helps you parse cmd args like writing a shell script.
 
 ---
 
@@ -45,7 +45,7 @@ import (
 	"fmt"
 	"os"
 
-    // We use . to use GetOpt, Get and Shift function conviniently.
+    // We use . to use GetOpt, Get and Shift functions conveniently.
     // You can also use common import with package name, if needed
 	. "gitee.com/go-getopt/go-getopt"
 )
@@ -142,8 +142,8 @@ echo "Remains: $@"
 I think go getopt is suitable if you meet one or more of the following conditions:
 
 - you are searching for a go library to parse cmd args
-- you only want to get parsed strings, and you could do further conversions by yourself
-- you don't want too much code of type assertions and type conversions, and you don't need functions like `GetInt` or `MustGetInt`
+- you only want to get parsed strings, and you can do further conversions by yourself
+- you don't want too much code of type assertions and type conversions, and you don't need the library to provide functions like `GetInt` or `MustGetInt`
 - you get used to write shell script, and want to find a similar substitution in go
 - you don't like the style of `flag` or `pflag`
 - you don't want to use heavy and complex `cobra`
@@ -152,7 +152,7 @@ Feel free to use this library. If you have any problems just post an issue.
 
 ## Subcommand
 
-Subcommand support is **unnecessary**. In shell, you could combine multiple scripts to handle your need, and so does go. Take `git push -f origin master` as an example.
+Subcommand support is **unnecessary**, in my opinion. In shell, you could combine multiple scripts to handle your need, and so does go. Take `git push -f origin master` as an example.
 
 Shell
 
@@ -162,7 +162,7 @@ Shell
 # Check if $1 is "push". If so, shift $1 and pass $@ to git-push script
 [ "$1" == "push" ] && shift && git-push "$@" && exit
 
-# If not, continue getopt of git command
+# If not, continue getopt git command
 ```
 
 go
@@ -173,20 +173,22 @@ if len(os.Args) >= 2 && os.Args[1] == "push" {
 	gitPushArgs = append(gitPushArgs, "git-push")
 	gitPushArgs = append(gitPushArgs, os.Args[2:]...)
 	GetOpt(gitPushArgs, options, longOptions)
-	// continue for loop of "git push"
+	// for loop of "git-push"
 	return
 }
+GetOpt(os.Args, options, longOptions)
+// for loop of "git"
 ```
 
 ## Other FAQs
 
-### Is it concurrency-safe (or goroutine-safe)
+### Is it concurrency-safe (or goroutine-safe)?
 
 It's impossible, because C `getopt` and `getopt_long` use global variables `optind` and `optarg` to store middle states.
 
 It's unnecessary either. Why do you need to parse cmd args multiple times?
 
-### Which platforms do the library supports
+### Which platforms do the library supports?
 
 We use `cgo` to wrap C `getopt_long` function, mainstream `libc`s are all supported:
 
@@ -195,7 +197,7 @@ We use `cgo` to wrap C `getopt_long` function, mainstream `libc`s are all suppor
 - `musl` Alpine
 - `uclibc-ng` BusyBox
 
-### Why not use pure go to get this done
+### Why not use pure go to get this done?
 
 Perhaps you means to implement a `getopt_long` with pure go, but I have been away from C for a long time. You can do it by yourself if you are interested. The source code of `getopt` and `getopt_long` functions in widely-used `libc`s are listed below.
 
