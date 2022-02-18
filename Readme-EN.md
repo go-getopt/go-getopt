@@ -42,51 +42,51 @@ go get gitee.com/go-getopt/go-getopt
 package main
 
 import (
-	"fmt"
-	"os"
+    "fmt"
+    "os"
 
     // We use . to use GetOpt, Get and Shift functions conveniently.
     // You can also use common import with package name, if needed
-	. "gitee.com/go-getopt/go-getopt"
+    . "gitee.com/go-getopt/go-getopt"
 )
 
 func main() {
     // Pass os.Args, options, and longOptions string
-	err := GetOpt(os.Args, "ab:c::", "a-long,b-long:,c-long::")
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
+    err := GetOpt(os.Args, "ab:c::", "a-long,b-long:,c-long::")
+    if err != nil {
+        fmt.Fprintln(os.Stderr, err)
+        os.Exit(1)
+    }
 
     // Args is an exported global variable that stores all parsed arguments
-	fmt.Println("Arguments:", Args)
-	fmt.Println("Program name:", Args[0])
+    fmt.Println("Arguments:", Args)
+    fmt.Println("Program name:", Args[0])
 
     // a for loop to deal with each arg like shell script does
-	for loop := true; loop; {
-		switch Get(1) {
-		case "-a", "--a-long":
-			fmt.Println("Option a")
-			Shift(1)
-		case "-b", "--b-long":
-			fmt.Println("Option b, argument '" + Get(2) + "'")
-			Shift(2)
-		case "-c", "--c-long":
-			if Get(2) == "" {
-				fmt.Println("Option c, no argument")
-			} else {
-				fmt.Println("Option c with arg '" + Get(2) + "'")
-			}
-			Shift(2)
-		case "--":
-			Shift(1)
-			loop = false
-		default:
-			fmt.Fprintln(os.Stderr, "Error: wrong argument '"+arg1+"'")
-			os.Exit(1)
-		}
-	}
-	fmt.Println("Remains:", Args[1:])
+    for loop := true; loop; {
+        switch Get(1) {
+        case "-a", "--a-long":
+            fmt.Println("Option a")
+            Shift(1)
+        case "-b", "--b-long":
+            fmt.Println("Option b, argument '" + Get(2) + "'")
+            Shift(2)
+        case "-c", "--c-long":
+            if Get(2) == "" {
+                fmt.Println("Option c, no argument")
+            } else {
+                fmt.Println("Option c with arg '" + Get(2) + "'")
+            }
+            Shift(2)
+        case "--":
+            Shift(1)
+            loop = false
+        default:
+            fmt.Fprintln(os.Stderr, "Error: wrong argument '"+arg1+"'")
+            os.Exit(1)
+        }
+    }
+    fmt.Println("Remains:", Args[1:])
 }
 ```
 
@@ -113,18 +113,18 @@ eval "set -- $parsed"
 while true; do
     case "$1" in
         -a|--a-long)
-			echo 'Option a'
-			shift
-		;;
-		-b|--b-long)
-			echo "Option b, argument '$2'"
-			shift 2
-		;;
-	    -c|--c-long)
+            echo 'Option a'
+            shift
+        ;;
+        -b|--b-long)
+            echo "Option b, argument '$2'"
+            shift 2
+        ;;
+        -c|--c-long)
             [ -n "$2" ] &&
             echo "Option c, argument '$2'" ||
             echo 'Option c, no argument'
-			shift 2
+            shift 2
         --)
             shift
             break
@@ -169,12 +169,12 @@ go
 
 ```go
 if len(os.Args) >= 2 && os.Args[1] == "push" {
-	gitPushArgs := make([]string, 0, len(os.Args)-1)
-	gitPushArgs = append(gitPushArgs, "git-push")
-	gitPushArgs = append(gitPushArgs, os.Args[2:]...)
-	GetOpt(gitPushArgs, options, longOptions)
-	// for loop of "git-push"
-	return
+    gitPushArgs := make([]string, 0, len(os.Args)-1)
+    gitPushArgs = append(gitPushArgs, "git-push")
+    gitPushArgs = append(gitPushArgs, os.Args[2:]...)
+    GetOpt(gitPushArgs, options, longOptions)
+    // for loop of "git-push"
+    return
 }
 GetOpt(os.Args, options, longOptions)
 // for loop of "git"
