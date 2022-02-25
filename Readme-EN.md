@@ -192,16 +192,26 @@ It's unnecessary either. Why do you need to parse cmd args multiple times?
 
 We use `cgo` to wrap C `getopt_long` function, mainstream `libc`s are all supported:
 
-- `mingw` / `msvc` Windows
+- `mingw` / `cygwin` ~~/ `msvc`~~ Windows
 - `glibc` Debian family, CentOS family
 - `musl` Alpine
 - `uclibc-ng` BusyBox
 
-### Why not use pure go to get this done?
+Sorry for making mistakes. `MSVC` does not have C `getopt` or `getopt_long` functions. For go developers without `mingw` or `cygwin`, some substitutions and solutions are listed below.
 
-Perhaps you means to implement a `getopt_long` with pure go, but I have been away from C for a long time. You can do it by yourself if you are interested. The source code of `getopt` and `getopt_long` functions in widely-used `libc`s are listed below.
+- https://github.com/DavidGamba/go-getoptions
+- https://github.com/pborman/getopt
+- https://github.com/droundy/goopt
 
-**musl**
+Or you can implement and compile `getopt`, `getopt_long` C code by yourself, and then use cgo to wrap it. You can refer to the maybe-useful solutions listed below, or src code of `getopt`, `getopt_long`.
+
+**substitutions or solutions**
+
+- https://stackoverflow.com/questions/10404448/getopt-h-compiling-linux-c-code-in-windows
+- https://github.com/alex85k/wingetopt
+- https://github.com/takamin/win-c
+
+**musl getopt**
 
 https://git.musl-libc.org/cgit/musl/tree/src/misc/getopt.c
 
@@ -219,3 +229,7 @@ https://gogs.waldemar-brodkorb.de/oss/uclibc-ng/src/master/libc/unistd/getopt.c
 
 https://gogs.waldemar-brodkorb.de/oss/uclibc-ng/src/master/libc/unistd/getopt_long-simple.c
 
+
+### Why not use pure go to get this done?
+
+Perhaps you means to implement a `getopt_long` with pure go, but I have been away from C for a long time. You can do it by yourself if you are interested. The source code of `getopt` and `getopt_long` functions in widely-used `libc`s are listed above.

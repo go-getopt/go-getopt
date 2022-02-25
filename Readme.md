@@ -197,10 +197,16 @@ if len(os.Args) >= 2 && os.Args[1] == "push" {
 
 这个库是用 `cgo` 包装 `libc` 中的 `getopt_long` 方法实现的。原理和 shell getopt 命令行程序差不多。目前主流的 `libc` 都是支持的：
 
-- `mingw` / `msvc` Windows 系
+- `mingw` / `cygwin` ~~/ `msvc`~~ Windows 系
 - `glibc` Debian 系、CentOS 系
 - `musl` Alpine
 - `uclibc-ng` BusyBox
+
+对不起搞错了。`MSVC` 没有 `getopt` 和 `getopt_long`。用 Windows 写 go 程序的人可以采用以下（可能有用的）替代方案。
+
+- https://github.com/DavidGamba/go-getoptions
+- https://github.com/pborman/getopt
+- https://github.com/droundy/goopt
 
 ### 怎么不用纯 go 写一个呢？
 
