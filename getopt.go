@@ -64,11 +64,12 @@ func errEmptyLongOption(longOptions string, index int) error {
 // 则报错返回时，已经解析过的 C 字符串需要一个个 free 掉。
 // 因此这里多做一步，调用 _Go_options.getCTypeOptions 生成 []C.struct_options。
 // 只要是返回值中包含 C *char 字符串的 go 方法，必须正确返回，返回值不能包含 error。
-func parseLongOptions(longOptions string) (_Gotype_long_options, error) {
+func parseLongOptions(str string) (_Gotype_long_options, error) {
+	longOptions := str + ","
 	n := len(longOptions)
 	opts := make(_Gotype_long_options, 0, 20)
 	for i, j := 0, 0; j < n; j++ {
-		if ch := longOptions[j]; !(ch == ',' || ch == ' ' || ch == '\t' || ch == '\n') {
+		if longOptions[j] != ',' {
 			continue
 		}
 		// deal with ",," or "  " (multiple splits)
